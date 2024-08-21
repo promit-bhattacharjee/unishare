@@ -41,49 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDklQgELcqfEZwggtQ3PQuqnbbCcSnbVUk',
-    appId: '1:459570418745:web:11983ed853c2fb3e2aa9e8',
-    messagingSenderId: '459570418745',
-    projectId: 'bookiee-1a30c',
-    authDomain: 'bookiee-1a30c.firebaseapp.com',
-    storageBucket: 'bookiee-1a30c.appspot.com',
-    measurementId: 'G-0FY37X2T8M',
+    apiKey: 'AIzaSyCFIA-Ni-Hk6Tfkb4xXqzOmpK81RyuYGQs',
+    appId: '1:348404299583:web:d8cb2feac5a57c4b35c58a',
+    messagingSenderId: '348404299583',
+    projectId: 'unishare-63c0e',
+    authDomain: 'unishare-63c0e.firebaseapp.com',
+    storageBucket: 'unishare-63c0e.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB1f4nMksEZFFBWDeMcNS47cB6kgj-7ol0',
-    appId: '1:459570418745:android:64a4e165b52d57af2aa9e8',
-    messagingSenderId: '459570418745',
-    projectId: 'bookiee-1a30c',
-    storageBucket: 'bookiee-1a30c.appspot.com',
+    apiKey: 'AIzaSyAxm665kWbpY4ZP8qCLp4t3UelPq7fgERg',
+    appId: '1:348404299583:android:2b935530a6459f5635c58a',
+    messagingSenderId: '348404299583',
+    projectId: 'unishare-63c0e',
+    storageBucket: 'unishare-63c0e.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDf5EfT8iHmVZY2Q9iI2wIazYE-VfsPeiQ',
-    appId: '1:459570418745:ios:730d21cbdf2e061c2aa9e8',
-    messagingSenderId: '459570418745',
-    projectId: 'bookiee-1a30c',
-    storageBucket: 'bookiee-1a30c.appspot.com',
+    apiKey: 'AIzaSyCkK3VDsjJomeul9WILW8Hmf_CO3eLt3ZY',
+    appId: '1:348404299583:ios:523a31187f8a1fe035c58a',
+    messagingSenderId: '348404299583',
+    projectId: 'unishare-63c0e',
+    storageBucket: 'unishare-63c0e.appspot.com',
     iosBundleId: 'com.example.bookiee',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDf5EfT8iHmVZY2Q9iI2wIazYE-VfsPeiQ',
-    appId: '1:459570418745:ios:730d21cbdf2e061c2aa9e8',
-    messagingSenderId: '459570418745',
-    projectId: 'bookiee-1a30c',
-    storageBucket: 'bookiee-1a30c.appspot.com',
+    apiKey: 'AIzaSyCkK3VDsjJomeul9WILW8Hmf_CO3eLt3ZY',
+    appId: '1:348404299583:ios:523a31187f8a1fe035c58a',
+    messagingSenderId: '348404299583',
+    projectId: 'unishare-63c0e',
+    storageBucket: 'unishare-63c0e.appspot.com',
     iosBundleId: 'com.example.bookiee',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDklQgELcqfEZwggtQ3PQuqnbbCcSnbVUk',
-    appId: '1:459570418745:web:ebb66930416bf5182aa9e8',
-    messagingSenderId: '459570418745',
-    projectId: 'bookiee-1a30c',
-    authDomain: 'bookiee-1a30c.firebaseapp.com',
-    storageBucket: 'bookiee-1a30c.appspot.com',
-    measurementId: 'G-P6VGZ5HL45',
+    apiKey: 'AIzaSyCFIA-Ni-Hk6Tfkb4xXqzOmpK81RyuYGQs',
+    appId: '1:348404299583:web:f6696589ef151d1635c58a',
+    messagingSenderId: '348404299583',
+    projectId: 'unishare-63c0e',
+    authDomain: 'unishare-63c0e.firebaseapp.com',
+    storageBucket: 'unishare-63c0e.appspot.com',
   );
 
 }

@@ -1,14 +1,17 @@
 import 'package:bookiee/Screens/BookListScreen.dart';
-import 'package:bookiee/Screens/BookingRequestsScreen.dart';
+import 'package:bookiee/Screens/ConfirmedRequestsScreen.dart';
 import 'package:bookiee/Screens/HomeScreen.dart';
+import 'package:bookiee/Screens/LoginScreen.dart';
 import 'package:bookiee/Screens/ProfileScreen.dart';
 import 'package:bookiee/Screens/ShareBookScreen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:bookiee/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'SearchOverlay.dart'; // Import the search overlay widget
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({super.key});
+
   @override
   State<HomeLayout> createState() => HomeLayoutState();
 }
@@ -16,40 +19,98 @@ class HomeLayout extends StatefulWidget {
 class HomeLayoutState extends State<HomeLayout> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 2;
-  Widget HomeScreenComponent = HomeScreen();
+  late Widget _homeScreenComponent;
+  final TextEditingController _searchController = TextEditingController();
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Index 0: Home', style: optionStyle),
-    Text('Index 1: Business', style: optionStyle),
-    Text('Index 2: School', style: optionStyle),
-    Text('Index 3: Message', style: optionStyle),
-    Text('Index 4: Profile', style: optionStyle),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _homeScreenComponent = HomeScreen();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString('email');
+
+    if (email == null || email.isEmpty) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: LoginScreen(),
+          ),
+        ),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex == 2) {
-        HomeScreenComponent = HomeScreen();
-      } else if (_selectedIndex == 1) {
-        HomeScreenComponent = ShareBookScreen();
-      } else if (_selectedIndex == 0) {
-        HomeScreenComponent = BookListScreen();
-      } else if (_selectedIndex == 3) {
-        HomeScreenComponent = BookingRequestsScreen();
-      } else {
-        HomeScreenComponent = ProfileScreen();
+      switch (_selectedIndex) {
+        case 0:
+          _homeScreenComponent = BookListScreen();
+          break;
+        case 1:
+          _homeScreenComponent = ShareBookScreen();
+          break;
+        case 2:
+          _homeScreenComponent = HomeScreen();
+          break;
+        case 3:
+          _homeScreenComponent = ConfirmedRequestsScreen();
+          break;
+        default:
+          _homeScreenComponent = ProfileScreen();
+          break;
       }
-      print(_selectedIndex);
     });
+  }
+
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => MyApp(), // Redirect to main app entry point
+      ),
+      (Route<dynamic> route) => false,
+    );
+  }
+
+  void _confirmLogout() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Logout'),
+          content: Text('Are you sure you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _logout();
+              },
+              child: Text('Logout'),
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false, // Prevent the background from turning black
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey, // Assigning a GlobalKey to the Scaffold
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Center(
           child: Image(
@@ -65,8 +126,7 @@ class HomeLayoutState extends State<HomeLayout> {
             height: 24,
           ),
           onPressed: () {
-            _scaffoldKey.currentState!
-                .openDrawer(); // Access ScaffoldState directly
+            _scaffoldKey.currentState?.openDrawer();
           },
         ),
       ),
@@ -87,24 +147,17 @@ class HomeLayoutState extends State<HomeLayout> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
               onTap: () {
-                Navigator.pop(context); // Close drawer and navigate to home
+                Navigator.pop(context); // Close drawer
+                _confirmLogout(); // Show logout confirmation popup
               },
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.pop(context); // Close drawer and navigate to settings
-              },
-            ),
-            // Add more list tiles as needed
           ],
         ),
       ),
-      body: HomeScreenComponent,
+      body: _homeScreenComponent,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromRGBO(0, 0, 0, 1),
         items: const <BottomNavigationBarItem>[

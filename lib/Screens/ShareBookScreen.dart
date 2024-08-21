@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ShareBookScreen extends StatefulWidget {
   const ShareBookScreen({Key? key}) : super(key: key);
@@ -23,8 +24,22 @@ class _ShareBookScreenState extends State<ShareBookScreen> {
   final TextEditingController _authorController = TextEditingController();
   final TextEditingController _publisherController = TextEditingController();
   final TextEditingController _courseController = TextEditingController();
-  final String _userEmail =
-      'user@example.com'; // Replace with actual user email
+  String _userEmail = ''; // To be populated with the current user's email
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserEmail();
+  }
+
+  Future<void> _getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        _userEmail = user.email ?? 'user@example.com'; // Fallback email
+      });
+    }
+  }
 
   Future<void> _pickImage(bool isFront) async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -146,10 +161,27 @@ class _ShareBookScreenState extends State<ShareBookScreen> {
                             color: Colors.grey[300],
                             child: Icon(Icons.image, size: 50),
                           )
-                        : Image.file(
-                            _frontImage!,
-                            height: 100,
-                            width: 80,
+                        : Stack(
+                            children: [
+                              Image.file(
+                                _frontImage!,
+                                height: 100,
+                                width: 80,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: IconButton(
+                                  icon: Icon(Icons.cancel, color: Colors.red),
+                                  onPressed: () {
+                                    setState(() {
+                                      _frontImage = null;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                     Text('Front'),
                   ],
@@ -163,10 +195,27 @@ class _ShareBookScreenState extends State<ShareBookScreen> {
                             color: Colors.grey[300],
                             child: Icon(Icons.image, size: 50),
                           )
-                        : Image.file(
-                            _backImage!,
-                            height: 100,
-                            width: 80,
+                        : Stack(
+                            children: [
+                              Image.file(
+                                _backImage!,
+                                height: 100,
+                                width: 80,
+                                fit: BoxFit.cover,
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: IconButton(
+                                  icon: Icon(Icons.cancel, color: Colors.red),
+                                  onPressed: () {
+                                    setState(() {
+                                      _backImage = null;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                     Text('Back'),
                   ],

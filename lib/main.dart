@@ -1,4 +1,6 @@
 import 'package:bookiee/Screens/HomeLayout.dart';
+import 'package:bookiee/Screens/LoginScreen.dart';
+import 'package:bookiee/Screens/RegistrationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: LoginActivity(),
     );
   }
@@ -27,6 +30,6 @@ class LoginActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeLayout();
+    return LoginScreen();
   }
 }
